@@ -1,43 +1,34 @@
 // src/index.js
-import express, { Express, Request, Response } from "express";
-import dotenv from "dotenv";
-import axios from 'axios';
-import cors from "cors";
+import process from "process";
+import mongoose from "mongoose";
+
+import app from "./app";
+import config from "./config";
 
 
-dotenv.config();
+process.on("uncaughtExpression", (err: any) => {
+  console.log(err.name, err.message);
+  console.log("UNCAUGHT EXPRESSION, SHUTTING DOWN .....");
+  process.exit(1);
+})
 
-const app: Express = express();
-const port = process.env.PORT || 3000;
+const port = config.PORT;
 
-app.use(express.json());
-app.use(cors());
+//Database Connection
+const URI = config.DATABASE.replace("<PASSWORD>", config.DATABASE_PASSWORD);
 
-app.post("/provide-recommendation", async (req: Request, res: Response, Next: any) => {
-  // console.log(req.body);
-  try {
-    // Sending a request to the Flask API
-    const flaskResponse = await axios.post('http://127.0.0.1:5000/recommend', {
-        input: req.body.input
-    });
+mongoose.connect(URI).then(() => {
+  console.log("Database connection successful");
+})
 
-    // Sending the API response from the Flask API
-    res.json({
-        success: true,
-        data: {
-          data: flaskResponse.data
-        }
-    });
-} catch (error) {
-    console.error('Error connecting to Flask API:', error);
-    res.status(500).json({
-        success: false,
-        message: 'Error connecting to Flask API',
-    });
-}
- 
+const server = app.listen(port, () => {
+  console.log(`${config.APP_NAME} App(API) is listening on port ${port} in ${config.NODE_ENV} mode.`);
 });
 
-app.listen(port, () => {
-  console.log(`[server]: Server is running at http://localhost:${port}`);
-});
+process.on("unhandledRejection", (err: any) => {
+  console.log(err.name, err.message);
+  console.log("UNHANDLED REJECTION, SHUTTING DOWN .....");
+  server.close(() => {
+    process.exit(1);
+  })
+})
