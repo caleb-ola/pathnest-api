@@ -1,0 +1,39 @@
+extends base
+
+block content
+  table(align='center' style='\
+  background-color: #fff;\
+  /* box-shadow: 0px 1px 22px 0px #3333331a; */\
+  text-align: center;\
+  border-radius: 0;\
+  width: 600px;\
+  margin: 0px auto 0px;\
+  ')
+    // CONTENT HEADER STARTS
+    tr
+      td(style='\
+      font-weight: 700;\
+      font-size: 1.6rem;\
+      color: #060016;\
+      padding: 0 50px 10px;\
+      ')
+        | 🚀 Welcome! Let's Dive In! 📚
+    // CONTENT HEADER ENDS
+    // CONTENT BODY STARTS
+    tr(style='text-align: left; color: #4f4f4f;')
+      td(style='padding: 0 50px')
+        p Hi #{firstname},
+
+        p Welcome aboard LinkSpire! 🚀 We're stoked to have you join our community. With LinkSpire, you can organize and share your favorite links effortlessly.
+
+        p Dive right in by logging into your account and exploring the features. Whether you're a researcher, student, or simply a curious soul, LinkSpire provides a platform to keep your links organized and accessible from anywhere.
+
+        p If you have any questions or need a guiding hand, feel free to reach out to our friendly support team. We're here to ensure you have a smooth sailing experience with LinkSpire.
+
+    tr(style='text-align: left; color: #4f4f4f')
+      td(style='padding: 0 50px')
+        p(style='padding-bottom: 35px')
+          | Happy linking!, 
+          br
+          | The LinkSpire Team.
+    // CONTENT BODY ENDS

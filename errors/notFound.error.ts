@@ -1,4 +1,4 @@
-import AppError from "./appError"
+import AppError from "./appError.error"
 
 class NotFoundError extends AppError {
     constructor(message: string = "Not found") {

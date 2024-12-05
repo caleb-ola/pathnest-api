@@ -14,6 +14,8 @@ dotenv.config();
 
 import config from "./config";
 import routers from "./routers/router"
+import BadRequestError from "./errors/badRequest.error";
+import GlobalErrorHandler from "./controllers/error.controller";
 
 
 const app: Express = express();
@@ -45,6 +47,12 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 app.use("/api/v1", routers);
+
+app.all("*", () => {
+    throw new BadRequestError("Route not found.")
+});
+
+app.use(GlobalErrorHandler);
 
 
 app.post("/provide-recommendation", async (req: Request, res: Response, Next: any) => {

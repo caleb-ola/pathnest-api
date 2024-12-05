@@ -1,0 +1,66 @@
+head
+  meta(charset='UTF-8')
+  meta(http-equiv='X-UA-Compatible' content='IE=edge')
+  meta(name='viewport' content='width=device-width, initial-scale=1.0')
+  // GOOGLE FONT (POPPINS)
+  link(rel='preconnect' href='https://fonts.googleapis.com')
+  link(rel='preconnect' href='https://fonts.gstatic.com' crossorigin='')
+  link(href='https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap' rel='stylesheet')
+  title Spire
+body(style="margin: 0; padding: 50px 0; font-family: poppins; background: #fef3e2; ")     
+  // HEADER SECTION STARTS
+  table(style='\
+  height: 120px;\
+  background-color: #fff;\
+  /* box-shadow: 0px 1px 22px 0px #3333331a; */\
+  /* border-bottom: 2px solid #c1f2b0; */\
+  text-align: center;\
+  border-radius: 20px 20px 0 0;\
+  width: 600px;\
+  margin: 50px auto 0px;\
+  padding: 20px 50px 0;\
+  ')
+    tr
+      td
+        h2(style='color: #fa4032; margin:0; font-family: poppins;')
+          span(style='color: #03071e') Path
+          | Nest
+          hr(style='border: 1px solid #fa812f; margin-top:20px')
+  // HEADER SECTION ENDS
+  // CONTENT SECTION STARTS
+  block content
+  // CONTENT SECTION ENDS
+  // FOOTER SECTION STARTS
+  table(style='\
+  background: #060016;\
+  text-align: center;\
+  border-radius: 0 0 20px 20px;\
+  margin: 0px auto 70px;\
+  color: #fff;\
+  cursor: pointer;\
+  width: 600px;\
+  padding: 20px 20px;\
+  ')
+    tr(style='\
+    text-align: center;\
+    background: transparent;\
+    border-radius: 0px 0px 10px 10px;\
+    ')
+      td
+        span
+          a(href='venturenation.co' style='\
+          padding: 5px 5px 5px 0px;\
+          border: 0;\
+          font-weight: 500;\
+          cursor: pointer;\
+          margin: 0px auto 45px;\
+          text-decoration: none;\
+          color: #ffffff;\
+          ')
+            | &copy; 
+            span(style='color: #fa4032; font-weight: 700')
+              span(style='color: #fff') Link
+              | Spire
+            | . All rights reserved.
+    // FOOTER SOCIAL MEDIA LINKS ENDS
+  // FOOTER SECTION ENDS
