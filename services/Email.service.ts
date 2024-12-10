@@ -21,7 +21,7 @@ class EmailService {
   }
 
   newTransport() {
-    if (config.NODE_ENV === "production") {
+    if (config.NODE_ENV !== "production") {
       return nodemailer.createTransport({
         host: config.BREVO_HOST,
         port: config.BREVO_PORT,
@@ -63,6 +63,13 @@ class EmailService {
   async sendEmailVerification() {
     await this.send("verifyEmail", {
       subject: "🚀 Welcome to PathNest! Please Verify Your Email 📧",
+    });
+  }
+
+  async welcome() {
+    await this.send("welcome", {
+      subject:
+        "🎉 Welcome to PathNest! Let’s shape your child’s future together!",
     });
   }
 }

@@ -7,6 +7,7 @@ import AsyncHandler from "../utils/asyncHandler";
 import { createRandomUsername } from "../utils/casuals";
 import jwt from "jsonwebtoken";
 import crypto from "crypto";
+import { CustomRequest } from "../middlewares/middleware.types";
 
 const generateToken = (id: string, email: string) => {
   return jwt.sign({ id, email }, config.JWT_SECRET, {
@@ -144,6 +145,8 @@ export const emailVerification = AsyncHandler(async (req, res, next) => {
 
   await user.save();
 
+  new EmailService(user, "").welcome();
+
   createSendToken(user, 200, res);
 });
 
@@ -239,3 +242,52 @@ export const resetPassword = AsyncHandler(async (req, res, next) => {
 });
 
 // Update password
+export const updatePassword = AsyncHandler(
+  async (req: CustomRequest, res, next) => {
+    const { email } = req.currentUser;
+    const { password, newPassword, confirmNewPassword } = req.body;
+
+    if (!password) throw new BadRequestError("Password is required.");
+    if (!newPassword) throw new BadRequestError("New password is required");
+    if (!confirmNewPassword)
+      throw new BadRequestError("Confirm new password is required");
+
+    if (newPassword !== confirmNewPassword)
+      throw new BadRequestError("Passwords must be the same.");
+
+    const user = await User.findOne({ email }).select("+password");
+    if (!user) throw new BadRequestError("Invalid token, please login again");
+
+    // Check if old password is correct
+    const passwordCheck = user.checkPassword(password, user.password);
+    if (!passwordCheck)
+      throw new BadRequestError("Password is incorrect, please try again.");
+
+    user.password = newPassword;
+    user.passwordChangedAt = Date.now();
+
+    await user.save();
+
+    createSendToken(user, 200, res);
+  }
+);
+
+// Test emails
+export const sendTestEmail = AsyncHandler(async (req, res, next) => {
+  const user = {
+    name: "Jane Doe",
+    username: "jane_doeaf20df78e760",
+    email: "olajiire2@gmail.com",
+    slug: "jane-doe",
+    role: "user",
+  };
+
+  new EmailService(user, "").welcome();
+
+  res.status(200).json({
+    status: "success",
+    data: {
+      data: "A test email has been sent.",
+    },
+  });
+});

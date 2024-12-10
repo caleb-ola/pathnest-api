@@ -4,7 +4,7 @@ import validator from "validator";
 import bcrypt from "bcrypt";
 import crypto from "crypto";
 
-interface UserTypes extends mongoose.Document {
+export interface UserTypes extends mongoose.Document {
   name: string;
   username: string;
   email: string;
@@ -28,6 +28,7 @@ interface UserTypes extends mongoose.Document {
   createVerificationToken(): string;
   checkPassword(inputPassword: string, userPassword: string): Promise<boolean>;
   createPasswordResetToken(): string;
+  changedPasswordAfter(JWTTimestamp: number): boolean;
 }
 
 const userSchema = new mongoose.Schema<UserTypes>(
