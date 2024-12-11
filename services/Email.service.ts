@@ -15,7 +15,7 @@ class EmailService {
 
   constructor(user: any, url: string) {
     this.to = user.email;
-    this.from = `Pathnest <hello@pathnest.io>`;
+    this.from = `PathNest <hello@pathnest.io>`;
     this.firstName = user.name.split(" ")[0];
     this.url = url;
   }
@@ -66,10 +66,34 @@ class EmailService {
     });
   }
 
-  async welcome() {
+  async sendWelcome() {
     await this.send("welcome", {
       subject:
         "🎉 Welcome to PathNest! Let’s shape your child’s future together!",
+    });
+  }
+
+  async sendForgotPassword() {
+    await this.send("forgotPassword", {
+      subject: "Reset Your PathNest Password 🔒",
+    });
+  }
+
+  async sendPasswordChanged() {
+    await this.send("passwordChanged", {
+      subject: "🔑 Your Password Was Successfully Changed",
+    });
+  }
+
+  async sendPartnerAddition() {
+    await this.send("partnerAddition", {
+      subject: "🌟 New Partner Added to Your Child’s Profile",
+    });
+  }
+
+  async sendPartnerInvitation() {
+    await this.send("partnerInvite", {
+      subject: "✉️ You’ve Been Invited to PathNest!",
     });
   }
 }

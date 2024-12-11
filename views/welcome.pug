@@ -10,18 +10,19 @@ block content
   margin: 0px auto 0px;\
   ')
     // CONTENT HEADER STARTS
-    tr
+    tr(style="width: 600px;")
       td(style='\
       font-weight: 700;\
       font-size: 1.6rem;\
       color: #060016;\
-      padding: 0 50px 10px;\
+      padding: 0 30px 10px;\
+      width: 600px; \
       ')
         | 🚀 Welcome! Let's Dive In!
     // CONTENT HEADER ENDS
     // CONTENT BODY STARTS
     tr(style='text-align: left; color: #4f4f4f;')
-      td(style='padding: 0 50px')
+      td(style='padding: 0 30px; font-size: 1rem;')
         p Hi #{firstName},
 
         p Welcome to PathNest! 🎈 We’re thrilled to have you onboard as we help you unlock your child’s potential.
@@ -37,15 +38,17 @@ block content
           strong Pro Tip: 
           | Add your partner to your child’s profile! They’ll get to see career insights, but don’t worry, only you can update the profile details.
 
-        p 👩‍💻 Need help? We’re just a click away. Here’s to bright futures and exciting paths ahead! 🚀
+        p(style="margin-bottom: 0;") 👩‍💻 Need help? We’re just a click away. Here’s to bright futures and exciting paths ahead! 🚀
         
     tr(style='text-align: left; color: #4f4f4f')
-      td(style='padding: 0 50px')
+      td(style='padding: 0 30px; font-size: 1rem;')
         p
           | Warm regards,
           br
           | The PathNest Team.
-
+          
+    tr(style='text-align: left; color: #4f4f4f')
+      td(style='padding: 0 30px; font-size: 1rem;')
         p(style='padding-bottom: 35px')
           | ⚠️ 
           i

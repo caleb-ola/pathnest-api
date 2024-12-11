@@ -145,7 +145,7 @@ export const emailVerification = AsyncHandler(async (req, res, next) => {
 
   await user.save();
 
-  new EmailService(user, "").welcome();
+  new EmailService(user, "").sendWelcome();
 
   createSendToken(user, 200, res);
 });
@@ -277,12 +277,17 @@ export const sendTestEmail = AsyncHandler(async (req, res, next) => {
   const user = {
     name: "Jane Doe",
     username: "jane_doeaf20df78e760",
-    email: "olajiire2@gmail.com",
+    email: "dolabomitest@gmail.com",
     slug: "jane-doe",
     role: "user",
   };
 
-  new EmailService(user, "").welcome();
+  new EmailService(user, "").sendWelcome();
+  //   new EmailService(user, "").sendEmailVerification();
+  //   new EmailService(user, "").sendForgotPassword();
+  //   new EmailService(user, "").sendPasswordChanged();
+  //   new EmailService(user, "").sendPartnerAddition();
+  //   new EmailService(user, "").sendPartnerInvitation();
 
   res.status(200).json({
     status: "success",

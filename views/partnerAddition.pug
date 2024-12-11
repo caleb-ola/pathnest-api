@@ -1,0 +1,45 @@
+extends base
+
+block content
+  table(align='center' style='\
+  background-color: #fff;\
+  /* box-shadow: 0px 1px 22px 0px #3333331a; */\
+  text-align: center;\
+  border-radius: 0;\
+  width: 600px;\
+  margin: 0px auto 0px;\
+  ')
+    // CONTENT HEADER STARTS
+    tr(style="width: 600px;")
+      td(style='\
+      font-weight: 700;\
+      font-size: 1.6rem;\
+      color: #060016;\
+      padding: 0 30px 10px;\
+      width: 600px; \
+      ')
+        | 🌟 Partner Added to Child’s Profile
+    // CONTENT HEADER ENDS
+
+    // CONTENT BODY STARTS
+    tr(style='text-align: left; color: #4f4f4f;')
+      td(style='padding: 0 30px; font-size: 1rem;')
+        p Hi #{firstName},
+       
+        P You’ve just added [Partner’s Name] as a partner to [Child’s Name]’s profile on PathNest. 🎉
+
+        P They can now view your child’s career recommendations and insights—but only you can edit their details.
+        
+        p 
+          strong 👩‍👦‍👦 PathNest Tip: 
+          | Collaboration is key! Explore the recommendations together to guide [Child’s Name] toward a bright future.
+        
+    
+    tr(style='text-align: left; color: #4f4f4f')
+      td(style='padding: 0 30px; font-size: 1rem;')
+        p(style='padding-bottom: 35px') 
+          | Warm regards, 
+          br
+          | The PathNest Team.
+        
+    // CONTENT BODY ENDS
