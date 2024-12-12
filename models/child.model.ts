@@ -22,7 +22,7 @@ const recommendationSchema = new mongoose.Schema<RecommendationTypes>(
   {
     recommendation: {
       type: String,
-      required: [true, "Reccomendation is required"],
+      required: [true, "Recomendation is required"],
     },
     inputs: {
       type: [Number],
@@ -82,3 +82,7 @@ const childSchema = new mongoose.Schema<ChildTypes>(
     },
   }
 );
+
+const Child = mongoose.model<ChildTypes>("Child", childSchema);
+
+export default Child;

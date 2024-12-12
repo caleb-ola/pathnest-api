@@ -74,7 +74,7 @@ const userSchema = new mongoose.Schema<UserTypes>(
       type: String,
       minimum: [5, "Password cannot be less than 5 characters"],
       required: [true, "Password is required"],
-      select: true,
+      select: false,
     },
     passwordChangedAt: Date,
     passwordResetToken: String,
