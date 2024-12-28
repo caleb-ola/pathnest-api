@@ -5,6 +5,10 @@ import { convert } from "html-to-text";
 
 interface EmailInfo {
   subject: string;
+  name?: string;
+  email?: string;
+  parentName?: string;
+  childName?: string;
 }
 
 class EmailService {
@@ -21,7 +25,7 @@ class EmailService {
   }
 
   newTransport() {
-    if (config.NODE_ENV !== "production") {
+    if (config.NODE_ENV === "production") {
       return nodemailer.createTransport({
         host: config.BREVO_HOST,
         port: config.BREVO_PORT,
@@ -60,6 +64,28 @@ class EmailService {
     await this.newTransport().sendMail(mailOptions);
   }
 
+  async sendPartner(template: string, info: EmailInfo) {
+    const html = pug.renderFile(`${__dirname}/../views/${template}.pug`, {
+      url: this.url,
+      firstName: this.firstName,
+      subject: info.subject,
+      name: info.name,
+      email: info.email,
+      parentName: info.parentName,
+      childName: info.childName,
+    });
+
+    const mailOptions = {
+      to: info.email,
+      from: this.from,
+      subject: info.subject,
+      html,
+      text: convert(html),
+    };
+
+    await this.newTransport().sendMail(mailOptions);
+  }
+
   async sendEmailVerification() {
     await this.send("verifyEmail", {
       subject: "🚀 Welcome to PathNest! Please Verify Your Email 📧",
@@ -85,15 +111,23 @@ class EmailService {
     });
   }
 
-  async sendPartnerAddition() {
-    await this.send("partnerAddition", {
+  async sendPartnerAddition(partner: any) {
+    await this.sendPartner("partnerAddition", {
       subject: "🌟 New Partner Added to Your Child’s Profile",
+      name: partner.name,
+      email: partner.email,
+      parentName: partner.parentName,
+      childName: partner.childName,
     });
   }
 
-  async sendPartnerInvitation() {
-    await this.send("partnerInvite", {
+  async sendPartnerInvitation(partner: any) {
+    await this.sendPartner("partnerInvite", {
       subject: "✉️ You’ve Been Invited to PathNest!",
+      name: partner.name,
+      email: partner.email,
+      parentName: partner.parentName,
+      childName: partner.childName,
     });
   }
 }

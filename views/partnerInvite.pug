@@ -23,24 +23,26 @@ block content
     // CONTENT BODY STARTS
     tr(style='text-align: left; color: #4f4f4f;')
       td(style='padding: 0 30px; font-size: 1rem;')
-        p Hi #{firstName},
+        p Hi,
        
-        P [Parent’s Name] has invited you to join PathNest and help guide [Child’s Name] on their career journey!
+        P #{firstName} (Parent) has invited you to join PathNest and help guide #{childName} (Child) on their career journey!
 
         P 
           strong ✨ What’s next?
         
         ol
           li(style='padding: 0 0 5px') Create a PathNest account with this email, if you  haven't. 
-          li(style='padding: 7px 0; line-height: 30px') Accept your invitation here:👉
-          
+          li(style='padding: 7px 0; line-height: 40px') Accept or Reject your invitation here:👇 
+            |
+            br
+            |
             a(href=`${url}` style='\
             background: #fa4032;\
             text-decoration: none;\
             color: #fff;\
             border-radius: 5px;\
             padding: 9px 15px;\
-            border: 0;\
+            border: 2px solid #fa4032 ;\
             font-weight: 700;\
             cursor: pointer;\
             margin: 15px 10px 15px;\
@@ -48,7 +50,25 @@ block content
             font-size: 0.9rem;\
             ')
                 | Accept Invite
-          li(style='padding: 7px 0 5px') Access your [Child’s Name]’s profile and recommendations.
+            |
+            span(style="padding: 0 5px") or 
+            |
+            a(href=`${url}` style='\
+            background: transparent;\
+            text-decoration: none;\
+            color: #fa4032;\
+            border-radius: 5px;\
+            padding: 8px 15px;\
+            border: 2px solid #fa4032 ;\
+            font-weight: 700;\
+            cursor: pointer;\
+            margin: 15px 10px 15px;\
+            box-shadow: 0px 2px 12px rgba(51, 51, 51, 0.2);\
+            font-size: 0.9rem;\
+            ')
+                | Reject Invite
+          li(style='padding: 7px 0 5px') Access #{childName}’s profile and recommendations.
+
 
         P Together, let’s shape their bright future! 🌟
 

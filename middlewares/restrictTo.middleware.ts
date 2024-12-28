@@ -14,3 +14,5 @@ const restrictTo = (...roles: string[]) => {
     next();
   };
 };
+
+export default restrictTo;

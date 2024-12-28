@@ -282,12 +282,12 @@ export const sendTestEmail = AsyncHandler(async (req, res, next) => {
     role: "user",
   };
 
-  new EmailService(user, "").sendWelcome();
+  // new EmailService(user, "").sendWelcome();
   //   new EmailService(user, "").sendEmailVerification();
   //   new EmailService(user, "").sendForgotPassword();
   //   new EmailService(user, "").sendPasswordChanged();
   //   new EmailService(user, "").sendPartnerAddition();
-  //   new EmailService(user, "").sendPartnerInvitation();
+  new EmailService(user, "").sendPartnerInvitation(user);
 
   res.status(200).json({
     status: "success",

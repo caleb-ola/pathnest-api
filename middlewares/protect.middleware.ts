@@ -30,7 +30,7 @@ const protect = AsyncHandler(
 
     // Check if user changed password after token was issued
     const passwordChanged = user.changedPasswordAfter(decodedToken.iat);
-    if (!passwordChanged)
+    if (passwordChanged)
       throw new BadRequestError(
         "Password changed by user, please log in again."
       );

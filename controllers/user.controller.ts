@@ -1,6 +1,7 @@
 import BadRequestError from "../errors/badRequest.error";
 import NotAuthorizedError from "../errors/notAuthorized.error";
 import { CustomRequest } from "../middlewares/middleware.types";
+import Child from "../models/child.model";
 import User from "../models/user.model";
 import APIFeatures from "../utils/apiFeatures";
 import AsyncHandler from "../utils/asyncHandler";
@@ -26,7 +27,7 @@ export const getAllUsers = AsyncHandler(async (req, res, next) => {
 export const getUserById = AsyncHandler(async (req, res, next) => {
   const { id } = req.params;
 
-  const user = await User.findById(id);
+  const user = await User.findById(id).populate("children");
   if (!user) throw new BadRequestError("User not found");
 
   res.status(200).json({
