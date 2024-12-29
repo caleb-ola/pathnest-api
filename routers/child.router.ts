@@ -1,10 +1,14 @@
 import { Router } from "express";
 import {
+  acceptPartnerRequest,
   createChild,
   createPartnerRequest,
   deleteChild,
   getAllChildren,
   getChild,
+  rejectPartnerRequest,
+  removePartnerFromChild,
+  resendPartnerRequest,
   updateChild,
 } from "../controllers/child.controller";
 import protect from "../middlewares/protect.middleware";
@@ -32,6 +36,22 @@ router.delete(
   protect,
   deleteAllRecommendations
 );
-router.post("/:id/add-partner", protect, createPartnerRequest);
+router.post("/:id/partners/add-partner", protect, createPartnerRequest);
+router.post(
+  "/:childId/partners/:requestId/accept",
+  protect,
+  acceptPartnerRequest
+);
+router.post(
+  "/:childId/partners/:requestId/reject",
+  protect,
+  rejectPartnerRequest
+);
+router.delete(
+  "/:childId/partners/:partnerId/remove",
+  protect,
+  removePartnerFromChild
+);
+router.post("/:id/partners/resend-partner", protect, resendPartnerRequest);
 
 export default router;
