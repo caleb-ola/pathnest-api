@@ -209,9 +209,10 @@ export const createPartnerRequest = AsyncHandler(
 
     res.status(201).json({
       status: "success",
-      data: {
-        data: child,
-      },
+      message: "A request has been sent to your partner's email.",
+      // data: {
+      //   data: child,
+      // },
     });
   }
 );
@@ -276,7 +277,7 @@ export const rejectPartnerRequest = AsyncHandler(
     const child = await Child.findOneAndUpdate(
       {
         _id: childId,
-        "partnerRequests._id": currentUser.id,
+        "partnerRequests._id": requestId,
         "partnerRequests.email": currentUser.email,
         "partnerRequests.status": "pending",
       },
@@ -299,7 +300,101 @@ export const rejectPartnerRequest = AsyncHandler(
 );
 
 export const removePartnerFromChild = AsyncHandler(
-  async (req, res, next) => {}
+  async (req: CustomRequest, res, next) => {
+    const { childId, partnerId } = req.params;
+    const { currentUser } = req;
+
+    const child = await Child.findOne({
+      _id: childId,
+      parent: currentUser.id,
+      partnerParent: partnerId,
+    });
+
+    if (!child)
+      throw new NotAuthorizedError(
+        "You are not allowed to perform this action"
+      );
+
+    child.partnerParent = undefined;
+
+    const partner = await User.findOne({ _id: partnerId });
+    if (!partner) throw new BadRequestError("Partner user not found");
+
+    partner.partners = partner.partners.filter(
+      (item) =>
+        item.partner.toString() !== currentUser.id.toString() &&
+        item.child.toString() !== childId
+    );
+
+    partner.save();
+
+    const user = await User.findOne({ _id: currentUser.id });
+    if (!user) throw new BadRequestError("User not found");
+
+    user.partners = user.partners.filter(
+      (item) =>
+        item.partner.toString() !== partnerId.toString() &&
+        item.child.toString() !== childId
+    );
+
+    user.save();
+
+    res.status(200).json({
+      status: "success",
+      message: "Partner removed from child profile successfully",
+    });
+  }
 );
 
-export const resendPartnerRequest = AsyncHandler(async (req, res, next) => {});
+export const resendPartnerRequest = AsyncHandler(
+  async (req: CustomRequest, res, next) => {
+    const { id } = req.params;
+    const { currentUser } = req;
+
+    const { name, email } = req.body;
+    if (!email) throw new BadRequestError("Email is required.");
+    if (!name) throw new BadRequestError("Name is required.");
+
+    const child = await Child.findOne({ _id: id, parent: currentUser.id });
+    if (!child)
+      throw new NotAuthorizedError(
+        "You are not allowed to perform this action"
+      );
+
+    // Check if request with email already exists
+    const exisitingRequest = child.partnerRequests.find(
+      (request) => request.email === email && request.status === "pending"
+    );
+    if (!exisitingRequest)
+      throw new BadRequestError(
+        "There is no partner request with the email provided. Please check again"
+      );
+
+    child.partnerRequests.filter(
+      (request) => request.email !== email && request.status === "pending"
+    );
+
+    const updatedChild = await child.save();
+
+    const requestId =
+      updatedChild.partnerRequests[updatedChild.partnerRequests.length - 1].id;
+
+    const url = `${config.APP_CLIENT}/children/${id}/resend-partner/${requestId}`;
+
+    const partnerDetails = {
+      name,
+      email,
+      parentName: currentUser.name,
+      childName: child.name,
+    };
+
+    await new EmailService(currentUser, url).sendPartnerInvitation(
+      partnerDetails
+    );
+
+    res.status(200).json({
+      status: "success",
+      message: "A request has been re-sent to your partner's email.",
+    });
+  }
+);

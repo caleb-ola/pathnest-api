@@ -14,7 +14,10 @@ export interface UserTypes extends mongoose.Document {
   bannerImage: string;
   slug: string;
   role: string;
-  partners: Array<{ type: Schema.Types.ObjectId; ref: "user" }>;
+  partners: Array<{
+    partner: { type: Schema.Types.ObjectId; ref: "user" };
+    child: { type: Schema.Types.ObjectId; ref: "child" };
+  }>;
   children: Array<{ type: Schema.Types.ObjectId; ref: "child" }>;
   lastLogin: string;
   password: string;

@@ -15,7 +15,7 @@ export interface ChildTypes extends mongoose.Document {
   gender: string;
   recommendationHistory: RecommendationTypes[];
   parent: { type: Schema.Types.ObjectId; ref: "User" };
-  partnerParent: string;
+  partnerParent: string | undefined;
   slug: string;
   avatar: string;
   partnerRequests: any[];
