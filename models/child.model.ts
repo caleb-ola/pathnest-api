@@ -88,7 +88,7 @@ export const childSchema = new mongoose.Schema<ChildTypes>(
       type: [recommendationSchema],
     },
     parent: { type: Schema.Types.ObjectId, ref: "User" },
-    partnerParent: String,
+    partnerParent: { type: Schema.Types.ObjectId, ref: "User" },
     partnerRequests: [
       {
         // partner: { type: Schema.Types.ObjectId, ref: "User" },

@@ -159,6 +159,9 @@ export const createPartnerRequest = AsyncHandler(
     if (!email) throw new BadRequestError("Email is required.");
     if (!name) throw new BadRequestError("Name is required.");
 
+    if (email === currentUser.email)
+      throw new NotAuthorizedError("You cannot add yourself as a partner.");
+
     // Get child and ensure current user is the parent of the child
     const child = await Child.findOne({ _id: id, parent: currentUser.id });
     if (!child)
@@ -210,9 +213,9 @@ export const createPartnerRequest = AsyncHandler(
     res.status(201).json({
       status: "success",
       message: "A request has been sent to your partner's email.",
-      // data: {
-      //   data: child,
-      // },
+      data: {
+        data: updatedChild,
+      },
     });
   }
 );
@@ -242,7 +245,7 @@ export const acceptPartnerRequest = AsyncHandler(
       );
 
     // Delete all other requests once a request is accepted
-    child.partnerParent = requestId;
+    child.partnerParent = currentUser.id;
     child.partnerRequests = [];
     await child.save();
 
@@ -316,6 +319,7 @@ export const removePartnerFromChild = AsyncHandler(
       );
 
     child.partnerParent = undefined;
+    child.save();
 
     const partner = await User.findOne({ _id: partnerId });
     if (!partner) throw new BadRequestError("Partner user not found");
@@ -354,6 +358,9 @@ export const resendPartnerRequest = AsyncHandler(
     const { name, email } = req.body;
     if (!email) throw new BadRequestError("Email is required.");
     if (!name) throw new BadRequestError("Name is required.");
+
+    if (email === currentUser.email)
+      throw new NotAuthorizedError("You cannot add yourself as a partner.");
 
     const child = await Child.findOne({ _id: id, parent: currentUser.id });
     if (!child)
@@ -395,6 +402,45 @@ export const resendPartnerRequest = AsyncHandler(
     res.status(200).json({
       status: "success",
       message: "A request has been re-sent to your partner's email.",
+    });
+  }
+);
+
+export const getChildrenAsPartner = AsyncHandler(
+  async (req: CustomRequest, res, next) => {
+    const { currentUser } = req;
+
+    const children = await Child.find({ partnerParent: currentUser.id });
+
+    res.status(200).json({
+      status: "success",
+      data: {
+        data: children,
+      },
+    });
+  }
+);
+
+export const getChildAsPartner = AsyncHandler(
+  async (req: CustomRequest, res, next) => {
+    const { childId } = req.params;
+
+    const { currentUser } = req;
+
+    const child = await Child.findOne({
+      _id: childId,
+      partnerParent: currentUser.id,
+    });
+    if (!child)
+      throw new NotAuthorizedError(
+        "You are not allowed to perform this action"
+      );
+
+    res.status(200).json({
+      status: "success",
+      data: {
+        data: child,
+      },
     });
   }
 );

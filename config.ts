@@ -17,6 +17,7 @@ interface ENV {
   BREVO_PORT: number;
   BREVO_USER: string;
   BREVO_PASS: string;
+  BREVO_PASS2: string;
 
   APP_NAME: string;
   APP_EMAIL_FROM: string;
@@ -43,6 +44,7 @@ const Config = (): ENV => {
     BREVO_PORT: +(process.env.BREVO_PORT as string),
     BREVO_USER: process.env.BREVO_USER as string,
     BREVO_PASS: process.env.BREVO_PASS as string,
+    BREVO_PASS2: process.env.BREVO_PASS as string,
 
     APP_NAME: process.env.APP_NAME as string,
     APP_EMAIL_FROM: process.env.APP_EMAIL_FROM as string,

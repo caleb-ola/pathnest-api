@@ -70,7 +70,12 @@ const userSchema = new mongoose.Schema<UserTypes>(
       type: String,
       enum: ["user", "admin"],
     },
-    partners: [{ type: Schema.Types.ObjectId, ref: "User" }],
+    partners: [
+      {
+        partner: { type: Schema.Types.ObjectId, ref: "user" },
+        child: { type: Schema.Types.ObjectId, ref: "child" },
+      },
+    ],
     children: [{ type: Schema.Types.ObjectId, ref: "Child" }],
     lastLogin: Date,
     password: {
@@ -104,6 +109,13 @@ const userSchema = new mongoose.Schema<UserTypes>(
         rect.id = rect._id;
         delete rect._id;
         delete rect.__v;
+
+        if (rect.partners) {
+          rect.partners = rect.partners.map((partner: any) => {
+            const { _id, id, ...rest } = partner;
+            return rest;
+          });
+        }
       },
     },
   }

@@ -6,6 +6,8 @@ import {
   deleteChild,
   getAllChildren,
   getChild,
+  getChildAsPartner,
+  getChildrenAsPartner,
   rejectPartnerRequest,
   removePartnerFromChild,
   resendPartnerRequest,
@@ -36,6 +38,8 @@ router.delete(
   protect,
   deleteAllRecommendations
 );
+
+// PARTNER ROUTES
 router.post("/:id/partners/add-partner", protect, createPartnerRequest);
 router.post(
   "/:childId/partners/:requestId/accept",
@@ -53,5 +57,8 @@ router.delete(
   removePartnerFromChild
 );
 router.post("/:id/partners/resend-partner", protect, resendPartnerRequest);
+
+router.get("/:childId/partners/partner-child", protect, getChildAsPartner);
+router.get("/partners/partner-children", protect, getChildrenAsPartner);
 
 export default router;

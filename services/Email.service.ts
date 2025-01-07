@@ -31,7 +31,7 @@ class EmailService {
         port: config.BREVO_PORT,
         auth: {
           user: config.BREVO_USER,
-          pass: config.BREVO_PASS,
+          pass: config.BREVO_PASS2,
         },
       });
     } else {
